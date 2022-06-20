@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Задачи
+{% endblock %}
+
+{% block body%}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/static/save_state_sort.js"></script>
+
+<div class="container d-flex flex-wrap justify-content-between">
+      <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
+      </a>
+
+      <form method="POST" action="{{ url_for('tasks') }}" onsubmit="submitForm()">
+          <select  name="type_data" id="type_data" class="term">
+              <option value="username" >Имя пользователя</option>
+              <option value="email" >Почта</option>
+              <option value="status">Статус</option>
+          </select>
+          <select name="type_order" id="type_order" class="term">
+              <option value="increase">Возрастания</option>
+              <option value="decrease">Убывания</option>
+          </select>
+          <button type="submit" class="btn btn-success">Сортировка</button>
+      </form>
+
+</div>
+<div class="container">
+  <h1 class="border-bottom border-gray pb-2 mb-0">Все задачи</h1>
+  {% for task in pages.items %}
+    <div class="alert alert-info">
+        <div class="pt-7">
+         <div class="d-flex justify-content-between">
+            <strong class="d-block text-black-dark">Имя пользователя: {{ task.username }}</strong>
+             <div>
+                 {% if task.status == "Выполнено" %}
+                    <p style="color:#008000">{{ task.status }}</p>
+                 {% else %}
+                    <p style="color:#FF0000">{{ task.status }}</p>
+                 {% endif %}
+                 <p style="color:#008000">{{ task.state_edit }}</p>
+
+             </div>
+
+        </div>
+          <p class="media-body pb-3 mb-0 small">
+            <strong class="d-block text-gray-dark">Почта: {{ task.email}}</strong>
+          </p>
+          <p><b>Задача: {{ task.text }}</b></p>
+        </div>
+
+        {% if current_user.is_authenticated %}
+        <a href="/tasks/{{ task.id }}/edit" class="btn btn-primary">Редактировать</a>
+        {% endif %}
+
+    </div>
+
+  {% endfor %}
+</div>
+
+<div class="container" methon="POST">
+  <ul class="pagination" >
+      <li {% if not pages.has_prev %} class="page-item disabled" {% endif %} >
+          <a href="./?page={{pages.prev_num}}" class="page-link">Previous</a>
+      </li>
+      {% for page in pages.iter_pages() %}
+          <li {% if page == pages.page %} class="page-item active" {% endif %} >
+              <a href="./?page={{page}}" class="page-link" > {{ page }} </a>
+          </li>
+      {% endfor %}
+
+      <li {% if not pages.has_next %} class="page-item disabled" {% endif %} >
+          <a href="./?page={{pages.next_num}}" class="page-link">Next</a>
+      </li>
+  </ul>
+</div>
+
+
+{% endblock %}

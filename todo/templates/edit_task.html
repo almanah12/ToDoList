@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Редактирование задачи
+{% endblock %}
+
+{% block body%}
+<div class="container mt-5" >
+  <h1> Редактирование задачи </h1>
+  <form method="post">
+      <input type="text" name="username" id="username" class="form-control" value="{{ task.username}}" placeholder="Имя пользователя" required=""><br>
+      <input name="email" type="email" placeholder="Почта" class="form-control" value="{{ task.email}}"required><br>
+      <textarea name="text" id="text" class="form-control" placeholder="Задача" required>{{ task.text}}</textarea><br>
+      <input type="checkbox" name="status" id="status" class="form-check-input" value="on">  <label class="form-check-label" >Статус о выполнении</label><br><br>
+      <input type="submit"  class="btn btn-success" value="Редактировать">
+  </form>
+   </div>
+</div>
+
+{% endblock %}
