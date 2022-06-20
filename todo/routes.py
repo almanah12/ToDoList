@@ -113,7 +113,7 @@ def edit_post(id):
         task.email = request.form['email']
         task.text = request.form['text']
         task.status = 'Выполнено' if request.form.get('status') == 'on' else 'Не выполнено'
-        task.state_edit = 'отредактировано администратором'
+        task.state = 'отредактировано администратором'
 
         try:
             db.session.commit()

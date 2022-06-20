@@ -8,7 +8,7 @@ class Task(db.Model):
     email = db.Column(db.String(100), nullable=False)
     text = db.Column(db.Text, nullable=False)
     status = db.Column(db.String(15), default='Не выполнена')
-    state_edit = db.Column(db.String(10), default='')
+    state = db.Column(db.String(10), default='')
 
     def __repr__(self):
         return '<Task %r>' % self.username
